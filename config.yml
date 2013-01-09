@@ -1,0 +1,7 @@
+message: "Your faction is too small to claim more land! Recruit more members first."
+rules:
+    - players_in_faction: 1
+      max_claims: 1
+    
+    - players_in_faction: 2
+      max_claims: 4
