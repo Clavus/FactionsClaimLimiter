@@ -70,6 +70,8 @@ public class FactionsClaimLimiter extends JavaPlugin
 		FPlayer fpl = FPlayers.i.get(pl);
 		Faction plFaction = fpl.getFaction();
 		
+		if (fpl.isAdminBypassing()) { return true; }
+		
 		int numMembers = plFaction.getFPlayers().size();
 		int numClaimed = plFaction.getLandRounded();
 		

@@ -19,6 +19,8 @@ public class FactionsClaimLimiterListener implements Listener
 	@EventHandler(priority = EventPriority.NORMAL)
 	public void onLandClaimEvent(LandClaimEvent e)
 	{
+		if (e.isCancelled()) { return; }
+		
 		Player pl = e.getPlayer();
 		if (pl != null && !plugin.canClaimLand(pl)) {
 			e.setCancelled(true);
