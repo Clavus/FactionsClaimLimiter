@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
+import com.massivecraft.factions.Faction;
 import com.massivecraft.factions.event.LandClaimEvent;
 
 public class FactionsClaimLimiterListener implements Listener
@@ -21,8 +22,9 @@ public class FactionsClaimLimiterListener implements Listener
 	{
 		if (e.isCancelled()) { return; }
 		
+		Faction f = e.getFaction();
 		Player pl = e.getPlayer();
-		if (pl != null && !plugin.canClaimLand(pl)) {
+		if (pl != null && f != null && !plugin.canClaimLand(pl, f)) {
 			e.setCancelled(true);
 		}
 	}

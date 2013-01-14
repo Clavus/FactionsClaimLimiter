@@ -65,12 +65,12 @@ public class FactionsClaimLimiter extends JavaPlugin
         print("Closing " + pdfFile.getName() + "!");
 	}
 	
-	public boolean canClaimLand(Player pl)
+	public boolean canClaimLand(Player pl, Faction f)
 	{
 		FPlayer fpl = FPlayers.i.get(pl);
 		Faction plFaction = fpl.getFaction();
 		
-		if (fpl.isAdminBypassing()) { return true; }
+		if (fpl.isAdminBypassing() || f.isWarZone() || f.isSafeZone()) { return true; }
 		
 		int numMembers = plFaction.getFPlayers().size();
 		int numClaimed = plFaction.getLandRounded();
