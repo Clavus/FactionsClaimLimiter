@@ -14,10 +14,9 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Faction;
-import com.massivecraft.factions.P;
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.Faction;
+import com.massivecraft.factions.entity.UPlayer;
 
 public class FactionsClaimLimiter extends JavaPlugin
 {
@@ -27,7 +26,7 @@ public class FactionsClaimLimiter extends JavaPlugin
 	
 	private String configMessage = "Your faction is too small to claim more land! Recruit more members first.";
 	
-	private P factions;
+	private Factions factions;
 	
 	private Logger log;
 	
@@ -46,7 +45,7 @@ public class FactionsClaimLimiter extends JavaPlugin
 		
 		PluginDescriptionFile pdfFile = this.getDescription();
 		
-		factions = (P) pm.getPlugin("Factions");
+		factions = (Factions) pm.getPlugin("Factions");
 		if (factions == null) {
 			scream("Failed to enable " + pdfFile.getName() + ", there is no Factions plugin!");
 			pm.disablePlugin(this);
@@ -67,13 +66,13 @@ public class FactionsClaimLimiter extends JavaPlugin
 	
 	public boolean canClaimLand(Player pl, Faction f)
 	{
-		FPlayer fpl = FPlayers.i.get(pl);
+		UPlayer fpl = UPlayer.get(pl);
 		Faction plFaction = fpl.getFaction();
 		
-		if (fpl.isAdminBypassing() || f.isWarZone() || f.isSafeZone()) { return true; }
+		if (fpl.isUsingAdminMode() || f.getName().toLowerCase().equals("safezone") || f.getName().toLowerCase().equals("warzone")) { return true; }
 		
-		int numMembers = plFaction.getFPlayers().size();
-		int numClaimed = plFaction.getLandRounded();
+		int numMembers = plFaction.getUPlayers().size();
+		int numClaimed = plFaction.getLandCount();
 		
 		for (HashMap<String, Integer> rule : rules) {
 			if (numMembers == rule.get("players_in_faction") && numClaimed + 1 > rule.get("max_claims")) {

@@ -3,3 +3,5 @@ name: FactionsClaimLimiter
 main: clavus.factionsclaimlimiter.FactionsClaimLimiter
 
 version: 1.0
+
+depend: [Factions]
